@@ -11,12 +11,12 @@ import {VoteComponent} from './vote/vote.component';
 
 const app_routes: Routes = [
   {path: '', redirectTo: '/candidates', pathMatch: 'full'},
-  {path: 'posts', component: PostComponent},
   {path: 'candidates', component: CandidateComponent},
   {path: ':id/edit', component: CandidateEditComponent},
   {path: 'new', component: CandidateEditComponent},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], children: [
-      {path: 'view-votes', component: VoteComponent, canActivate: [AuthGuard]}
+      {path: 'view-votes', component: VoteComponent, canActivate: [AuthGuard]},
+      {path: 'posts', component: PostComponent},
     ]},
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent}

@@ -1,9 +1,19 @@
 <div class="container">
-  <h4>Welcome {{currentUser.username}}</h4>
-  <div class="col-sm-8 text-center">
-    <button routerLink="view-votes" class="btn btn-block btn-success">Click here to View Votes</button>
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>Welcome {{currentUser.username}}</h4>
+      <div class="col-sm-3 text-center">
+        <button routerLink="view-votes" class="btn btn-block btn-primary">Votes</button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button routerLink="posts" class="btn btn-block btn-info">Posts</button>
+      </div>
+
+      <hr class="col-sm-12"/>
+    </div>
   </div>
 </div>
 
 
 <router-outlet></router-outlet>
+

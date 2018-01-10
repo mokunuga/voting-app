@@ -18,7 +18,6 @@ import {HttpClientModule} from '@angular/common/http';
 import { LogoutComponent } from './admin/logout.component';
 import {AuthGuard} from './admin/auth.guard';
 import { VoteComponent } from './vote/vote.component';
-import { PostEditComponent } from './admin/post-edit/post-edit.component';
 import {VoteService} from './vote/vote.service';
 
 
@@ -33,7 +32,6 @@ import {VoteService} from './vote/vote.service';
     LoginComponent,
     LogoutComponent,
     VoteComponent,
-    PostEditComponent,
   ],
   imports: [
     BrowserModule,

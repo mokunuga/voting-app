@@ -13,44 +13,45 @@ import {AuthenticationService} from '../admin/authentication.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  private loggedIn;
   private posts: Post[] = this.postService.getPosts();
-  private candidate: Candidate = null;
-  private candidateId;
-  private isCandidateSelected = false;
-  private voted = false;
-  private candidatesSelected: Candidate[];
+  private model: Post = {
+    postIndex: null, postName: null
+  };
+  private isEdit = false;
+  private selectedPost: Post;
+  private newPost: Post;
+  private clicked: boolean;
 
-
-  constructor(private as: AuthenticationService,
-              private postService: PostService,
-              private candidateService: CandidateService,
-              private voteService: VoteService) {
-    this.as.userLoggedIn.subscribe(
-      (loggedIn) => {
-        this.loggedIn = loggedIn;
-      }
-    );
-  }
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
+    this.clicked = false;
   }
 
-  postChanged(postIndex) {
-    this.candidatesSelected = this.candidateService.getCandidatesbyPost(postIndex);
-    this.isCandidateSelected = false;
-    this.voted = false;
+  trackByIndex(index: number, post: Post): number {
+    return post.postIndex;
   }
 
-  candidateChanged(candidateIndex) {
-    this.candidate = this.candidateService.getCandidate(candidateIndex);
-    this.candidateId = this.candidateService.getCandidateIndex(this.candidate);
-    this.isCandidateSelected = true;
-    this.voted = false;
+  onEdit(post: Post) {
+    this.isEdit = true;
+    this.selectedPost = post;
+    this.clicked = false
   }
 
-  onVote() {
-    this.voted = true;
-    this.voteService.onVote(this.candidateId);
+  onSubmit(formValue) {
+    this.newPost = new Post(this.selectedPost.postIndex, formValue.postName);
+    this.postService.editPost(this.selectedPost, this.newPost);
+    this.isEdit = false;
+  }
+
+  onAdd(newPost) {
+    this.clicked = true;
+    if (newPost.valid) {
+      this.postService.addPost(newPost.value);
+    }
+  }
+
+  onCancel() {
+    this.isEdit = false;
   }
 }

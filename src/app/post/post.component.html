@@ -1,48 +1,68 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-12" *ngIf="voted">
-      <div class="alert alert-success">Congratulations, you have successfully voted for candidate {{candidate.firstName}} {{candidate.lastName}}</div>
-    </div>
+    <div class="col-sm-12">
+      <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f.value)" novalidate>
+        <div class="row col-sm-offset-1">
+          <div class="col-sm-8">
+            <h3>Posts</h3>
 
-    <div class="col-sm-4">
-      <div class="select-dropdown">
-        <label for="post">Posts</label>
-        <select class="form-control" id=post (change)="postChanged($event.target.value)" >
-          <option>Pick a post...</option>
-          <option *ngFor="let post of posts" [value]="post.postIndex">{{post.postName}}</option>
-        </select>
-      </div>
+            <div class="clearfix module" *ngFor="let post of posts; trackBy: trackByIndex; let i = index; ">
+              <div class="col-sm-11">
+                <h5>{{post.postName}}</h5>
+              </div>
 
-      <div class="select-dropdown">
-        <label for="candidate">Candidates</label>
-        <select class="form-control" id=candidate (change)="candidateChanged($event.target.value)">
-          <option>Pick a candidate...</option>
-          <option *ngFor="let candidate of candidatesSelected"
-                  [value]="candidateService.getCandidateIndex(candidate)">{{candidate.firstName}} {{candidate.lastName}}</option>
-        </select>
-      </div>
-    </div>
+              <div >
+                <a class="btn btn-primary pull-right" (click)="onEdit(post)">Edit</a>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-sm-8"><hr/></div>
 
+          <div class="form-group">
+            <div *ngIf="isEdit" class="col-sm-8" [ngClass]="{'has-error': f.submitted && !postName.valid }">
+              <label class="col-sm-12">Edit {{selectedPost.postName}} Post</label>
+              <div class="col-sm-9">
+                <input type="text"
+                       id="postName"
+                       required
+                       class="form-control "
+                       [ngModel]="selectedPost.postName"
+                       name="postName"
+                       #postName ="ngModel">
+              </div>
+              <div class="col-sm-1.5 pull-right">
+                <button class="btn btn-danger pull-right" (click)="onCancel()">Cancel</button>
+              </div>
+              <div class="col-sm-1 pull-right">
+                <button class="btn btn-success pull-right" type="submit">Update</button>
+              </div>
 
-    <div class="col-sm-offset-1 col-sm-7">
-      <button routerLink="/new" *ngIf="loggedIn" class="btn btn-success btn-block clearfix">New Candidate</button>
-      <hr />
-      <div class="candidate-detail" *ngIf="isCandidateSelected">
-        <div class="pull-right">
-          <button (click)=onVote() class="btn btn-success" *ngIf="!loggedIn">Vote</button>
-          <button [routerLink]="['/', candidateId, 'edit']" class="btn btn-primary" *ngIf="loggedIn">Edit</button>
+              <div *ngIf="f.submitted && !postName.valid" class="help-block col-sm-12">Post Name is required</div>
+            </div>
+
+            <div class="col-sm-8" *ngIf="!isEdit" [ngClass]="{'has-error': clicked && !newPost.valid }">
+              <label class="col-sm-12">Add New Post</label>
+              <div class="col-sm-10">
+                <input type="text"
+                       id="newPost"
+                       required
+                       class="form-control"
+                       [ngModel]="model.postName"
+                       name="newPost"
+                       #newPost ="ngModel">
+              </div>
+              <div class="col-sm-2 pull-right">
+                <a class="btn btn-success pull-right" (click)="onAdd(newPost)">
+                  Submit
+                </a>
+              </div>
+              <div *ngIf="clicked && !newPost.valid" class="help-block col-sm-12">Post Name is required</div>
+            </div>
+          </div>
+
         </div>
-
-        <img class="img-responsive center-block"
-             src="{{candidate.candidateImage}}"
-             style="max-height: 20em"/>
-        <h2>{{candidate.firstName}} {{candidate.lastName}}</h2>
-        <span><strong>Post:</strong> {{candidatePost}}</span>
-        <hr>
-        <h4>Manifesto</h4>
-        <span>{{candidate.manifesto}}</span>
-      </div>
+      </form>
     </div>
   </div>
 </div>

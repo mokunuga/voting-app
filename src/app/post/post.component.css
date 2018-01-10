@@ -1,21 +1,19 @@
-.candidate-detail{
-  background-color: darkgray;
-  /*border: 2px solid grey;*/
-  border-radius: 10px;
+.post-list{
+  background-color: antiquewhite;
+  color: black;
+  border: 2px solid white;
+  border-radius: 7px;
+  font-size: 18px;
+}
+
+.module {
   padding: 10px;
-  color: white;
-  /*text-align: center;*/
-}
-
-.img-responsive{
-  border-radius: 20px;
-}
-
-h2{
   text-align: center;
-  margin-top: 10px;
+  color: #eee;
+  max-height: 100px;
+  min-width: 120px;
+  background-color: #607D8B;
+  border-radius: 10px;
+  margin: 0 0 6px 0;
 }
 
-.select-dropdown{
-  margin: 10px 0 10px 0;
-}

@@ -23,11 +23,12 @@
       </div>
     </div>
 
-
-
     <div class="col-sm-offset-1 col-sm-7">
-      <button routerLink="/new" *ngIf="loggedIn" class="btn btn-success btn-block clearfix">New Candidate</button>
-      <hr />
+      <div *ngIf="loggedIn">
+        <button routerLink="/new" class="btn btn-success btn-block clearfix">New Candidate</button>
+        <hr />
+      </div>
+
       <div class="candidate-detail" *ngIf="isCandidateSelected">
         <div class="pull-right">
           <button (click)=onVote() class="btn btn-success" *ngIf="!loggedIn">Vote</button>
