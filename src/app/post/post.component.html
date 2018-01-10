@@ -24,12 +24,14 @@
     </div>
 
 
-    <div class="col-sm-offset-1 col-sm-7">
-      <div class="candidate-detail" *ngIf="isCandidateSelected && !isEdit">
 
+    <div class="col-sm-offset-1 col-sm-7">
+      <button routerLink="/new" *ngIf="loggedIn" class="btn btn-success btn-block clearfix">New Candidate</button>
+      <hr />
+      <div class="candidate-detail" *ngIf="isCandidateSelected">
         <div class="pull-right">
           <button (click)=onVote() class="btn btn-success" *ngIf="!loggedIn">Vote</button>
-          <button [routerLink]="[candidateId, 'edit']" class="btn btn-primary" *ngIf="loggedIn">Edit</button>
+          <button [routerLink]="['/', candidateId, 'edit']" class="btn btn-primary" *ngIf="loggedIn">Edit</button>
         </div>
 
         <img class="img-responsive center-block"
@@ -40,11 +42,6 @@
         <hr>
         <h4>Manifesto</h4>
         <span>{{candidate.manifesto}}</span>
-
-      </div>
-
-      <div *ngIf="isEdit">
-        <router-outlet></router-outlet>
       </div>
     </div>
   </div>

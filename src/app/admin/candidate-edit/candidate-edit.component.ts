@@ -54,18 +54,16 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     this.newCandidate = new Candidate(form.value.firstName, form.value.lastName, +form.value.post,
       form.value.manifesto, form.value.candidateImage);
     if (!this.isNew) {
-      console.log(this.candidate);
-      console.log(this.newCandidate);
       this.candidateService.updateCandidate(this.candidate, this.newCandidate);
     } else {
       this.candidateService.addCandidate(this.newCandidate);
     }
-    console.log(this.route);
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['/candidates']);
    }
 
    onDelete() {
     this.candidateService.deleteCandidate(this.candidate);
-    this.router.navigate(['../../'], {relativeTo: this.route});
+    this.router.navigate(['/candidates'], {relativeTo: this.route});
    }
+
 }

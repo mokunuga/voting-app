@@ -5,8 +5,7 @@ import {Candidate} from '../candidate/candidate';
 import {CandidateService} from '../candidate/candidate.service';
 import {VoteService} from '../vote/vote.service';
 import {AuthenticationService} from '../admin/authentication.service';
-import {Subscription} from 'rxjs/Subscription';
-import {ActivatedRoute} from '@angular/router';
+
 
 @Component({
   selector: 'app-post',
@@ -21,15 +20,12 @@ export class PostComponent implements OnInit {
   private isCandidateSelected = false;
   private voted = false;
   private candidatesSelected: Candidate[];
-  private sub: Subscription;
-  private isEdit = false;
 
 
   constructor(private as: AuthenticationService,
               private postService: PostService,
               private candidateService: CandidateService,
-              private voteService: VoteService,
-              private route: ActivatedRoute) {
+              private voteService: VoteService) {
     this.as.userLoggedIn.subscribe(
       (loggedIn) => {
         this.loggedIn = loggedIn;
@@ -38,12 +34,6 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(
-      (params: any) => {
-        if (params.hasOwnProperty('edit')) {
-          this.isEdit = true;
-        }
-      });
   }
 
   postChanged(postIndex) {

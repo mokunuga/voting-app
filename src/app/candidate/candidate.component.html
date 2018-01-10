@@ -1,6 +1,48 @@
 <div class="container">
   <div class="row">
-    <router-outlet></router-outlet>
+    <div class="col-sm-12" *ngIf="voted">
+      <div class="alert alert-success">Congratulations, you have successfully voted for candidate {{candidate.firstName}} {{candidate.lastName}}</div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="select-dropdown">
+        <label for="post">Posts</label>
+        <select class="form-control" id=post (change)="postChanged($event.target.value)" >
+          <option>Pick a post...</option>
+          <option *ngFor="let post of posts" [value]="post.postIndex">{{post.postName}}</option>
+        </select>
+      </div>
+
+      <div class="select-dropdown">
+        <label for="candidate">Candidates</label>
+        <select class="form-control" id=candidate (change)="candidateChanged($event.target.value)">
+          <option>Pick a candidate...</option>
+          <option *ngFor="let candidate of candidatesSelected"
+                  [value]="candidateService.getCandidateIndex(candidate)">{{candidate.firstName}} {{candidate.lastName}}</option>
+        </select>
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-offset-1 col-sm-7">
+      <button routerLink="/new" *ngIf="loggedIn" class="btn btn-success btn-block clearfix">New Candidate</button>
+      <hr />
+      <div class="candidate-detail" *ngIf="isCandidateSelected">
+        <div class="pull-right">
+          <button (click)=onVote() class="btn btn-success" *ngIf="!loggedIn">Vote</button>
+          <button [routerLink]="['/', candidateId, 'edit']" class="btn btn-primary" *ngIf="loggedIn">Edit</button>
+        </div>
+
+        <img class="img-responsive center-block"
+             src="{{candidate.candidateImage}}"
+             style="max-height: 20em"/>
+        <h2>{{candidate.firstName}} {{candidate.lastName}}</h2>
+        <span><strong>Post:</strong> {{candidatePost}}</span>
+        <hr>
+        <h4>Manifesto</h4>
+        <span>{{candidate.manifesto}}</span>
+      </div>
+    </div>
   </div>
 </div>
-
