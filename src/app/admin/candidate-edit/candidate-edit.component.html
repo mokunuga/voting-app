@@ -1,0 +1,90 @@
+<form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)" novalidate>
+  <div class="row candidate-edit">
+    <div class="pull-right">
+      <button *ngIf="!isNew" class="btn btn-success" type="submit">Update</button>
+      <button *ngIf="isNew" class="btn btn-success" type="submit">Submit</button>
+      <button *ngIf="!isNew" class="btn btn-danger" (click)="onDelete()">Delete</button>
+      <button class="btn btn-primary" routerLink="../">Cancel</button>
+    </div>
+
+    <div class="col-sm-12 form-group" [ngClass]="{'has-error': f.submitted && !candidateImage.valid }">
+      <label for="candidateImage">Candidate Image URL</label>
+      <input type="text"
+             id="candidateImage"
+             required
+             class="form-control"
+             [ngModel]="candidate.candidateImage"
+             name="candidateImage"
+             #candidateImage = "ngModel">
+      <div *ngIf="f.submitted && !candidateImage.valid" class="help-block">Candidate Image is required</div>
+    </div>
+    <div class="col-sm-12">
+      <img class="img-responsive center-block"
+           [src]="candidateImage?.value || 'http://jeffnielsen.com/wp-content/uploads/2014/06/required-cropped.png'"
+           width="300px"
+           (error)="img.src='https://cdn.pixabay.com/photo/2017/03/28/01/42/attention-2180765_960_720.png'"
+            #img>
+    </div>
+
+    <div class="col-sm-6 form-group" [ngClass]="{'has-error': f.submitted && !firstName.valid }">
+      <label for="firstName">First Name</label>
+      <input type="text"
+             id="firstName"
+             required
+             class="form-control"
+             [ngModel]="candidate.firstName"
+             name="firstName"
+             #firstName = "ngModel">
+      <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+    </div>
+
+    <div class="col-sm-6 form-group" [ngClass]="{'has-error': f.submitted && !lastName.valid }">
+      <label for="lastName">Last Name</label>
+      <input type="text"
+             id="lastName"
+             required
+             class="form-control"
+             [ngModel]="candidate.lastName"
+             name="lastName"
+             #lastName = "ngModel">
+      <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+    </div>
+
+    <div class="col-sm-12 form-group" [ngClass]="{'has-error': f.submitted && !post.valid }">
+      <label for="post">Candidate Post</label>
+      <select id="post"
+              required
+              class="form-control"
+              [ngModel]="candidate.postIndex"
+              name="post"
+              #post = "ngModel">
+        <option *ngFor="let post of posts; let i=index"
+                [value]="post.postIndex">{{post.postName}}</option>
+      </select>
+      <div *ngIf="f.submitted && !manifesto.valid" class="help-block">Candidate Post is required</div>
+    </div>
+
+    <div class="col-sm-12">
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 col-md-12">
+      <hr />
+    </div>
+
+
+    <div class="col-sm-12 form-group" [ngClass]="{'has-error': f.submitted && !manifesto.valid }">
+      <label for="manifesto">Manifesto</label>
+      <textarea type="text"
+                rows="10"
+                id="manifesto"
+                required
+                class="form-control"
+                [ngModel]="candidate.manifesto"
+                name="manifesto"
+                #manifesto = "ngModel"></textarea>
+      <div *ngIf="f.submitted && !manifesto.valid" class="help-block">Manifesto is required</div>
+    </div>
+
+  </div>
+</form>

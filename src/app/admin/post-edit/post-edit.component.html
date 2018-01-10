@@ -1,0 +1,61 @@
+<form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f.value)" novalidate>
+  <div class="row">
+    <div class="pull-right">
+      <button class="btn btn-primary" routerLink="../">Cancel</button>
+    </div>
+
+    <div class="col-sm-12">
+      <label>Posts</label>
+      <div class="row" *ngFor="let post of posts; trackBy: trackByIndex; let i = index; ">
+        <div class="col-sm-12">
+          <div class="col-sm-10 post-list">
+            {{post.postName}}
+          </div>
+
+          <div class="col-sm-2">
+            <a class="btn btn-primary" (click)="onEdit(post)"><span class="glyphicon glyphicon-edit"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div *ngIf="isEdit" class="col-sm-12">
+        <label>Edit {{selectedPost.postName}} Post</label>
+        <div class="col-sm-10">
+          <input type="text"
+                 id="postName"
+                 required
+                 class="form-control "
+                 [ngModel]="selectedPost.postName"
+                 name="postName"
+                 #postName ="ngModel">
+        </div>
+        <div class="col-sm-2 pull-right">
+          <button class="btn btn-primary" type="submit">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-sm-12" *ngIf="!isEdit" [ngClass]="{'has-error': clicked && !newPost.valid }">
+        <label>Add New Post</label>
+        <div class="col-sm-10">
+          <input type="text"
+                 id="newPost"
+                 required
+                 class="form-control"
+                 [ngModel]="model.postName"
+                 name="newPost"
+                 #newPost ="ngModel">
+        </div>
+        <div class="col-sm-2 pull-right">
+         <a class="btn btn-primary" (click)="onAdd(newPost)">
+            <span class="glyphicon glyphicon-ok"></span>
+          </a>
+        </div>
+        <div *ngIf="clicked && !newPost.valid" class="help-block">Post Name is required</div>
+    </div>
+    </div>
+
+  </div>
+</form>
