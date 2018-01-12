@@ -12,7 +12,6 @@ export class VoteComponent implements OnInit {
   constructor(private voteService: VoteService) { }
 
   ngOnInit() {
-    console.log(this.votes.length);
   }
 
 }

@@ -19,13 +19,10 @@ export class AuthenticationService {
               private userService: UserService) {
 
     if (localStorage.getItem('currentUser') !== null) {
-      console.log(this.isAdmin());
       if (this.isAdmin()) {
         this.adminLoggedIn.next(true);
-        console.log('a');
       } else {
         this.userLoggedIn.next(true);
-        console.log('b');
       }
     }
 
@@ -40,8 +37,9 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('currentUser');
-    this.router.navigate(['login']);
     this.userLoggedIn.next(false);
+    this.adminLoggedIn.next(false);
+    this.router.navigate(['login']);
   }
 
   login(user) {
@@ -49,10 +47,12 @@ export class AuthenticationService {
     if (this.currentUser && this.currentUser.password === user.password) {
       localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
       if (this.isAdmin()) {
-        this.router.navigate(['admin']);
-        this.userLoggedIn.next(true);
+        this.userLoggedIn.next(false);
         this.adminLoggedIn.next(true);
+        this.router.navigate(['admin']);
       } else {
+        this.userLoggedIn.next(true);
+        this.adminLoggedIn.next(false);
         this.router.navigate(['candidates']);
       }
 

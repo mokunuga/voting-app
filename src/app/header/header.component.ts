@@ -16,13 +16,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.as.userLoggedIn.subscribe(
     (loggedIn) => {
       this.userLoggedIn = loggedIn;
-      console.log(loggedIn);
       }
     );
     this.subscription1 = this.as.adminLoggedIn.subscribe(
       (loggedIn) => {
         this.adminLoggedIn = loggedIn;
-        console.log(loggedIn);
       }
     );
   }

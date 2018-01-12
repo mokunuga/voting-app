@@ -15,8 +15,8 @@ const app_routes: Routes = [
   {path: 'candidates', component: CandidateComponent},
   {path: ':id/edit', component: CandidateEditComponent},
   {path: 'new', component: CandidateEditComponent},
-  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], children: [
-      {path: 'view-votes', component: VoteComponent, canActivate: [AuthGuard]},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {expectedRole: 'admin'}, children: [
+      {path: 'view-votes', component: VoteComponent},
       {path: 'posts', component: PostComponent},
     ]},
   {path: 'login', component: LoginComponent},

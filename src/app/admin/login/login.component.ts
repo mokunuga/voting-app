@@ -15,8 +15,10 @@ export class LoginComponent implements OnInit {
 
   private errorMsg = '';
   private successMsg = '';
-  private redirect = false;
-  private queryParam = null;
+  private redirectFromRegistration = false;
+  private newUserQueryParam = null;
+  private notAdminQueryParam = null;
+  private redirectForNotAdmin = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -27,15 +29,18 @@ export class LoginComponent implements OnInit {
     // reset login status
     this.authenticationService.logout();
     this.route.queryParams.subscribe(params => {
-      this.queryParam = params['id'] || null;
+      this.newUserQueryParam = params['newUser'] || null;
+      this.notAdminQueryParam = params['admin'] || null;
     });
-    if (this.queryParam !== null) {
-      this.redirect = true;
+    if (this.newUserQueryParam !== null) {
+      this.redirectFromRegistration = true;
+    }
+    if (this.notAdminQueryParam !== null) {
+      this.redirectForNotAdmin = true;
     }
   }
 
   login() {
-    console.log(this.user);
     if (!this.authenticationService.login(this.user)) {
       this.errorMsg = 'Authentication Failed';
       this.successMsg = '';
@@ -43,7 +48,8 @@ export class LoginComponent implements OnInit {
       this.errorMsg = '';
       this.successMsg = 'Successful!';
     }
-    this.redirect = false;
+    this.redirectFromRegistration = false;
+    this.redirectForNotAdmin = false;
   }
 
 }

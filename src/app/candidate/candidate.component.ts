@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from '../post/post.service';
 import {Post} from '../post/post';
 import {Candidate} from './candidate';
 import {CandidateService} from './candidate.service';
 import {VoteService} from '../vote/vote.service';
 import {AuthenticationService} from '../admin/authentication.service';
+import {Subscription} from 'rxjs/Subscription';
 
 
 @Component({
@@ -12,7 +13,7 @@ import {AuthenticationService} from '../admin/authentication.service';
   templateUrl: './candidate.component.html',
   styleUrls: ['./candidate.component.css']
 })
-export class CandidateComponent implements OnInit {
+export class CandidateComponent implements OnInit, OnDestroy {
 
   private userLoggedIn;
   private adminLoggedIn;
@@ -23,18 +24,20 @@ export class CandidateComponent implements OnInit {
   private voted = false;
   private candidatesSelected: Candidate[];
   private candidatePost: Post;
+  private subscription: Subscription;
+  private subscription1: Subscription;
 
 
   constructor(private as: AuthenticationService,
               private postService: PostService,
               private candidateService: CandidateService,
               private voteService: VoteService) {
-    this.as.userLoggedIn.subscribe(
+    this.subscription = this.as.userLoggedIn.subscribe(
       (loggedIn) => {
         this.userLoggedIn = loggedIn;
       }
     );
-    this.as.adminLoggedIn.subscribe(
+    this.subscription1 = this.as.adminLoggedIn.subscribe(
       (loggedIn) => {
         this.adminLoggedIn = loggedIn;
       }
@@ -61,5 +64,10 @@ export class CandidateComponent implements OnInit {
   onVote() {
     this.voted = true;
     this.voteService.onVote(this.candidateId);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }

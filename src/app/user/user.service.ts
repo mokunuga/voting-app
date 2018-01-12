@@ -26,7 +26,7 @@ export class UserService {
     this.users.push(user);
     localStorage.setItem('users', JSON.stringify(this.users));
     this.usersUpdated.next(true);
-    this.router.navigate(['/login'], {queryParams: {id: user.username}});
+    this.router.navigate(['/login'], {queryParams: {newUser: user.username}});
   }
 
 }

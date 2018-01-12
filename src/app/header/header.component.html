@@ -18,8 +18,8 @@
         <li *ngIf="adminLoggedIn" routerLinkActive="active"><a routerLink="admin">Admin</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" >
-        <li *ngIf="!userLoggedIn && !adminLoggedIn"><a routerLink="login">Log In</a></li>
-        <li *ngIf="!userLoggedIn && !adminLoggedIn"><a routerLink="register">Register</a></li>
+        <li *ngIf="!userLoggedIn && !adminLoggedIn" routerLinkActive="active"><a routerLink="login">Log In</a></li>
+        <li *ngIf="!userLoggedIn && !adminLoggedIn" routerLinkActive="active"><a routerLink="register">Register</a></li>
         <li *ngIf="userLoggedIn || adminLoggedIn"><a routerLink="logout">Log Out</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
