@@ -15,10 +15,12 @@ import { LoginComponent } from './admin/login/login.component';
 import {AuthenticationService} from './admin/authentication.service';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { LogoutComponent } from './admin/logout.component';
+import { LogoutComponent } from './admin/login/logout.component';
 import {AuthGuard} from './admin/auth.guard';
 import { VoteComponent } from './vote/vote.component';
 import {VoteService} from './vote/vote.service';
+import { UserComponent } from './user/user.component';
+import {UserService} from './user/user.service';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import {VoteService} from './vote/vote.service';
     LoginComponent,
     LogoutComponent,
     VoteComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,7 @@ import {VoteService} from './vote/vote.service';
     HttpClientModule,
     routes
   ],
-  providers: [AuthGuard, PostService, CandidateService, AuthenticationService, VoteService],
+  providers: [AuthGuard, PostService, CandidateService, AuthenticationService, VoteService, UserService],
   bootstrap: [AppComponent]
 })
 

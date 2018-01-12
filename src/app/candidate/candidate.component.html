@@ -24,22 +24,22 @@
     </div>
 
     <div class="col-sm-offset-1 col-sm-7">
-      <div *ngIf="loggedIn">
+      <div *ngIf="adminLoggedIn">
         <button routerLink="/new" class="btn btn-success btn-block clearfix">New Candidate</button>
         <hr />
       </div>
 
       <div class="candidate-detail" *ngIf="isCandidateSelected">
         <div class="pull-right">
-          <button (click)=onVote() class="btn btn-success" *ngIf="!loggedIn">Vote</button>
-          <button [routerLink]="['/', candidateId, 'edit']" class="btn btn-primary" *ngIf="loggedIn">Edit</button>
+          <button (click)=onVote() class="btn btn-success" *ngIf="userLoggedIn">Vote</button>
+          <button [routerLink]="['/', candidateId, 'edit']" class="btn btn-primary" *ngIf="adminLoggedIn">Edit</button>
         </div>
 
         <img class="img-responsive center-block"
              src="{{candidate.candidateImage}}"
              style="max-height: 20em"/>
         <h2>{{candidate.firstName}} {{candidate.lastName}}</h2>
-        <span><strong>Post:</strong> {{candidatePost}}</span>
+        <span><strong>Post:</strong> {{candidatePost.postName}}</span>
         <hr>
         <h4>Manifesto</h4>
         <span>{{candidate.manifesto}}</span>

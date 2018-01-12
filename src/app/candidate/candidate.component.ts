@@ -14,13 +14,15 @@ import {AuthenticationService} from '../admin/authentication.service';
 })
 export class CandidateComponent implements OnInit {
 
-  private loggedIn;
+  private userLoggedIn;
+  private adminLoggedIn;
   private posts: Post[] = this.postService.getPosts();
   private candidate: Candidate = null;
   private candidateId;
   private isCandidateSelected = false;
   private voted = false;
   private candidatesSelected: Candidate[];
+  private candidatePost: Post;
 
 
   constructor(private as: AuthenticationService,
@@ -29,7 +31,12 @@ export class CandidateComponent implements OnInit {
               private voteService: VoteService) {
     this.as.userLoggedIn.subscribe(
       (loggedIn) => {
-        this.loggedIn = loggedIn;
+        this.userLoggedIn = loggedIn;
+      }
+    );
+    this.as.adminLoggedIn.subscribe(
+      (loggedIn) => {
+        this.adminLoggedIn = loggedIn;
       }
     );
   }
@@ -46,6 +53,7 @@ export class CandidateComponent implements OnInit {
   candidateChanged(candidateIndex) {
     this.candidate = this.candidateService.getCandidate(candidateIndex);
     this.candidateId = this.candidateService.getCandidateIndex(this.candidate);
+    this.candidatePost = this.postService.getPost(this.candidate.postIndex);
     this.isCandidateSelected = true;
     this.voted = false;
   }

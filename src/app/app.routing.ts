@@ -4,10 +4,11 @@ import {CandidateComponent} from './candidate/candidate.component';
 import {PostComponent} from './post/post.component';
 import {AdminComponent} from './admin/admin.component';
 import {LoginComponent} from './admin/login/login.component';
-import {LogoutComponent} from './admin/logout.component';
+import {LogoutComponent} from './admin/login/logout.component';
 import {AuthGuard} from './admin/auth.guard';
 import {CandidateEditComponent} from './admin/candidate-edit/candidate-edit.component';
 import {VoteComponent} from './vote/vote.component';
+import {UserComponent} from './user/user.component';
 
 const app_routes: Routes = [
   {path: '', redirectTo: '/candidates', pathMatch: 'full'},
@@ -19,7 +20,8 @@ const app_routes: Routes = [
       {path: 'posts', component: PostComponent},
     ]},
   {path: 'login', component: LoginComponent},
-  {path: 'logout', component: LogoutComponent}
+  {path: 'logout', component: LogoutComponent},
+  {path: 'register', component: UserComponent}
 ];
 
 export const routes = RouterModule.forRoot(app_routes);

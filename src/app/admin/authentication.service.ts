@@ -1,30 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {User} from './user';
+import {User} from '../user/user';
 import {Router} from '@angular/router';
-import {isBoolean} from 'util';
-import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {UserService} from '../user/user.service';
 
 
 
 @Injectable()
 export class AuthenticationService {
 
-  private users: User[] = [
-    new User('mokunuga', 'test'),
-    new User('funmi', 'test')
-  ];
+  private users: User[] = this.userService.getUsers();
   private currentUser: User;
   userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  adminLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private userService: UserService) {
+
     if (localStorage.getItem('currentUser') !== null) {
-      this.userLoggedIn.next(true);
+      console.log(this.isAdmin());
+      if (this.isAdmin()) {
+        this.adminLoggedIn.next(true);
+        console.log('a');
+      } else {
+        this.userLoggedIn.next(true);
+        console.log('b');
+      }
     }
 
+    this.userService.usersUpdated.subscribe(
+      (users) => {
+        if (users === true) {
+          this.users = this.userService.getUsers();
+        }
+      }
+    );
   }
 
   logout() {
@@ -37,12 +48,26 @@ export class AuthenticationService {
     this.currentUser = this.users.find(u => u.username === user.username);
     if (this.currentUser && this.currentUser.password === user.password) {
       localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-      this.userLoggedIn.next(true);
-      this.router.navigate(['admin']);
+      if (this.isAdmin()) {
+        this.router.navigate(['admin']);
+        this.userLoggedIn.next(true);
+        this.adminLoggedIn.next(true);
+      } else {
+        this.router.navigate(['candidates']);
+      }
+
       return true;
     }
     return false;
   }
+
+  isAdmin() {
+    if (this.getCurrentUser()) {
+      return this.getCurrentUser().role === 'admin';
+    }
+    return false;
+  }
+
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('currentUser'));

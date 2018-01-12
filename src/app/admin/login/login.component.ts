@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
-import {User} from '../user';
+import {User} from '../../user/user';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -10,21 +11,31 @@ import {User} from '../user';
   `]
 })
 export class LoginComponent implements OnInit {
-  @Input() user: User = {username: null, password: null};
+  @Input() user  = {username: null, password: null};
 
   private errorMsg = '';
   private successMsg = '';
+  private redirect = false;
+  private queryParam = null;
 
   constructor(
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     // reset login status
     this.authenticationService.logout();
+    this.route.queryParams.subscribe(params => {
+      this.queryParam = params['id'] || null;
+    });
+    if (this.queryParam !== null) {
+      this.redirect = true;
+    }
   }
 
   login() {
+    console.log(this.user);
     if (!this.authenticationService.login(this.user)) {
       this.errorMsg = 'Authentication Failed';
       this.successMsg = '';
@@ -32,6 +43,7 @@ export class LoginComponent implements OnInit {
       this.errorMsg = '';
       this.successMsg = 'Successful!';
     }
+    this.redirect = false;
   }
 
 }

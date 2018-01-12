@@ -13,6 +13,24 @@ export class VoteService {
   private localVotes;
   constructor(private candidateService: CandidateService) { }
 
+  getVotes() {
+    if (localStorage.getItem('votes') === null) {
+      localStorage.setItem('votes', JSON.stringify(this.votes));
+    }
+    this.localVotes = JSON.parse(localStorage.getItem('votes'));
+    return this.localVotes;
+  }
+
+  getCandidateVotes() {
+    let voteCount = 0;
+    if (this.findCandidateIndex() === -1) {
+      voteCount = 0;
+    }else {
+      voteCount = this.votes[this.findCandidateIndex()].voteCount;
+    }
+    return voteCount;
+  }
+
   onVote(candidateId) {
     this.candidate = this.candidateService.getCandidate(candidateId);
     this.candidateVotes = this.getCandidateVotes();
@@ -27,16 +45,6 @@ export class VoteService {
     this.updateLocalStorage();
   }
 
-  getCandidateVotes() {
-    let voteCount = 0;
-    if (this.findCandidateIndex() === -1) {
-      voteCount = 0;
-    }else {
-      voteCount = this.votes[this.findCandidateIndex()].voteCount;
-    }
-    return voteCount;
-  }
-
   findCandidateIndex() {
     this.votes = this.getVotes();
     for (let i = 0; i < this.votes.length; i++) {
@@ -47,17 +55,7 @@ export class VoteService {
     return -1;
   }
 
-  getVotes() {
-    if (localStorage.getItem('votes') === null) {
-      localStorage.setItem('votes', JSON.stringify(this.votes));
-    }
-    this.localVotes = JSON.parse(localStorage.getItem('votes'));
-    return this.localVotes;
-  }
-
   updateLocalStorage() {
     localStorage.setItem('votes', JSON.stringify(this.votes));
-    this.localVotes = JSON.parse(localStorage.getItem('candidates'));
-
   }
 }

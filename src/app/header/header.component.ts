@@ -8,12 +8,21 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private loggedIn;
+  private userLoggedIn;
+  private adminLoggedIn;
   private subscription: Subscription;
+  private subscription1: Subscription;
   constructor(private as: AuthenticationService) {
     this.subscription = this.as.userLoggedIn.subscribe(
     (loggedIn) => {
-      this.loggedIn = loggedIn;
+      this.userLoggedIn = loggedIn;
+      console.log(loggedIn);
+      }
+    );
+    this.subscription1 = this.as.adminLoggedIn.subscribe(
+      (loggedIn) => {
+        this.adminLoggedIn = loggedIn;
+        console.log(loggedIn);
       }
     );
   }
@@ -23,5 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }

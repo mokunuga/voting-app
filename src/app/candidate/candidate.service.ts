@@ -1,7 +1,6 @@
-import {EventEmitter, Injectable, OnInit, Output} from '@angular/core';
+import { Injectable, OnInit} from '@angular/core';
 import {Candidate} from './candidate';
 import {PostService} from '../post/post.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subject} from 'rxjs/Subject';
 
 @Injectable()
