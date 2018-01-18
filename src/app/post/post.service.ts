@@ -42,4 +42,11 @@ export class PostService {
   updateLocalStorage() {
     localStorage.setItem('posts', JSON.stringify(this.posts));
   }
+
+  deletPost(post: Post) {
+    this.posts = this.getPosts();
+    this.posts.splice(this.posts.indexOf(post), 1);
+    this.updateLocalStorage();
+  }
+
 }

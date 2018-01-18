@@ -1,26 +1,29 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f.value)" novalidate>
-        <div class="row col-sm-offset-1">
-          <div class="col-sm-8">
-            <h3>Posts</h3>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Posts</h3>
+        <table class="table table-bordered table-striped bg-info">
+          <thead>
+          <tr>
+            <th>Post Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let post of posts">
+            <td>{{post.postName}}
+              <a class="btn btn-danger pull-right style" (click)="onDelete(post)">Delete</a>
+              <a class="btn btn-primary pull-right" (click)="onEdit(post)">Edit</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <div class="clearfix module" *ngFor="let post of posts; trackBy: trackByIndex; let i = index; ">
-              <div class="col-sm-11">
-                <h5>{{post.postName}}</h5>
-              </div>
-
-              <div >
-                <a class="btn btn-primary pull-right" (click)="onEdit(post)">Edit</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-8"><hr/></div>
-
+      <div class="col-sm-12">
+        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f.value)" novalidate>
           <div class="form-group">
-            <div *ngIf="isEdit" class="col-sm-8" [ngClass]="{'has-error': f.submitted && !postName.valid }">
+            <div *ngIf="isEdit" class="col-sm-12" [ngClass]="{'has-error': f.submitted && !postName.valid }">
               <label class="col-sm-12 col-xs-12">Edit {{selectedPost.postName}} Post</label>
               <div class="col-sm-8 col-xs-8">
                 <input type="text"
@@ -42,7 +45,7 @@
               <div *ngIf="f.submitted && !postName.valid" class="help-block col-sm-12">Post Name is required</div>
             </div>
 
-            <div class="col-sm-8" *ngIf="!isEdit" [ngClass]="{'has-error': clicked && !newPost.valid }">
+            <div class="col-sm-12" *ngIf="!isEdit" [ngClass]="{'has-error': clicked && !newPost.valid }">
               <label class="col-sm-12">Add New Post</label>
               <div class="col-sm-10">
                 <input type="text"
@@ -61,9 +64,8 @@
               <div *ngIf="clicked && !newPost.valid" class="help-block col-sm-12">Post Name is required</div>
             </div>
           </div>
-
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>

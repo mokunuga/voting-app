@@ -21,6 +21,7 @@ import { VoteComponent } from './vote/vote.component';
 import {VoteService} from './vote/vote.service';
 import { UserComponent } from './user/user.component';
 import {UserService} from './user/user.service';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {UserService} from './user/user.service';
     LogoutComponent,
     VoteComponent,
     UserComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,

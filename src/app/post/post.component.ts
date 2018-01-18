@@ -35,7 +35,7 @@ export class PostComponent implements OnInit {
   onEdit(post: Post) {
     this.isEdit = true;
     this.selectedPost = post;
-    this.clicked = false
+    this.clicked = false;
   }
 
   onSubmit(formValue) {
@@ -49,9 +49,16 @@ export class PostComponent implements OnInit {
     if (newPost.valid) {
       this.postService.addPost(newPost.value);
     }
+    this.posts = this.postService.getPosts();
+    this.isEdit = false;
   }
 
   onCancel() {
     this.isEdit = false;
+  }
+
+  onDelete(post: Post) {
+    this.postService.deletPost(post);
+    this.posts = this.postService.getPosts();
   }
 }

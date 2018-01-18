@@ -9,6 +9,7 @@ import {AuthGuard} from './admin/auth.guard';
 import {CandidateEditComponent} from './admin/candidate-edit/candidate-edit.component';
 import {VoteComponent} from './vote/vote.component';
 import {UserComponent} from './user/user.component';
+import {UserListComponent} from './user/user-list/user-list.component';
 
 const app_routes: Routes = [
   {path: '', redirectTo: '/candidates', pathMatch: 'full'},
@@ -18,6 +19,7 @@ const app_routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {expectedRole: 'admin'}, children: [
       {path: 'view-votes', component: VoteComponent},
       {path: 'posts', component: PostComponent},
+      {path: 'users-list', component: UserListComponent}
     ]},
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},

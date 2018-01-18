@@ -3,15 +3,20 @@
     <div class="col-sm-12">
       <h4>Welcome {{currentUser.username | uppercase}}</h4>
       <div class="col-sm-3 text-center">
-        <button routerLink="view-votes" class="btn btn-block btn-primary">Votes</button>
+        <button routerLink="users-list" class="btn btn-block btn-default" routerLinkActive="active">Users</button>
       </div>
 
       <div class="col-sm-3 text-center">
-        <button routerLink="posts" class="btn btn-block btn-info">Posts</button>
+        <button routerLink="view-votes" class="btn btn-block btn-primary" routerLinkActive="active">Votes</button>
+      </div>
+
+      <div class="col-sm-3 text-center">
+        <button routerLink="posts" class="btn btn-block btn-info" routerLinkActive="active">Posts</button>
       </div>
 
       <hr class="col-sm-12"/>
     </div>
+
   </div>
 </div>
 

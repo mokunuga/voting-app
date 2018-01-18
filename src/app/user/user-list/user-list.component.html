@@ -1,0 +1,25 @@
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Users List</h3>
+        <table class="table table-bordered table-striped bg-info">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>User Name</th>
+              <th>User ID No</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let user of users">
+              <td>{{user.firstName}} {{user.lastName}}</td>
+              <td>{{user.username}}</td>
+              <td>{{user.identificationNo}}</td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

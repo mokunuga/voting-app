@@ -1,14 +1,29 @@
 <div class="jumbotron">
   <div class="container">
-    <div class="col-sm-12" *ngFor="let vote of votes">
-      {{vote.candidate.firstName}} {{vote.candidate.lastName}} - {{vote.voteCount}}
-      <div *ngFor="let userId of vote.usersId">{{getUser(userId)}}</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Votes</h3>
+        <table class="table table-bordered table-striped bg-info">
+          <thead>
+          <tr>
+            <th>Candidate Name</th>
+            <th>Vote Count</th>
+            <th>Users that voted (Name - ID)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let vote of votes">
+            <td>{{vote.candidate.firstName}} {{vote.candidate.lastName}}</td>
+            <td>{{vote.voteCount}}</td>
+            <td><div *ngFor="let userId of vote.usersId">{{getUser(userId)}} - {{userId}}</div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm-12" *ngIf="votes.length === 0">
+        No Votes to Display
+      </div>
     </div>
-
-    <div class="col-sm-12" *ngIf="votes.length === 0">
-      No Votes to Display
-    </div>
-
-
   </div>
 </div>
