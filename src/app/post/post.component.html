@@ -21,8 +21,8 @@
 
           <div class="form-group">
             <div *ngIf="isEdit" class="col-sm-8" [ngClass]="{'has-error': f.submitted && !postName.valid }">
-              <label class="col-sm-12">Edit {{selectedPost.postName}} Post</label>
-              <div class="col-sm-9">
+              <label class="col-sm-12 col-xs-12">Edit {{selectedPost.postName}} Post</label>
+              <div class="col-sm-8 col-xs-8">
                 <input type="text"
                        id="postName"
                        required
@@ -31,13 +31,14 @@
                        name="postName"
                        #postName ="ngModel">
               </div>
-              <div class="col-sm-1.5 pull-right">
-                <button class="btn btn-danger pull-right" (click)="onCancel()">Cancel</button>
-              </div>
-              <div class="col-sm-1 pull-right">
+
+              <div class="col-sm-2 col-xs-2">
                 <button class="btn btn-success pull-right" type="submit">Update</button>
               </div>
 
+              <div class="col-sm-2 col-xs-2">
+                <button class="btn btn-danger pull-right" (click)="onCancel()">Cancel</button>
+              </div>
               <div *ngIf="f.submitted && !postName.valid" class="help-block col-sm-12">Post Name is required</div>
             </div>
 

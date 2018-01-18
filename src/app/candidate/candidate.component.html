@@ -3,6 +3,9 @@
     <div class="col-sm-12" *ngIf="voted">
       <div class="alert alert-success">Congratulations, you have successfully voted for candidate {{candidate.firstName}} {{candidate.lastName}}</div>
     </div>
+    <div class="col-sm-12" *ngIf="votedBefore">
+      <div class="alert alert-danger">You have already voted for this post, you cannot vote again!</div>
+    </div>
 
     <div class="col-sm-4">
       <div class="select-dropdown">

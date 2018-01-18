@@ -2,10 +2,13 @@
   <div class="container">
     <div class="col-sm-12" *ngFor="let vote of votes">
       {{vote.candidate.firstName}} {{vote.candidate.lastName}} - {{vote.voteCount}}
+      <div *ngFor="let userId of vote.usersId">{{getUser(userId)}}</div>
     </div>
 
     <div class="col-sm-12" *ngIf="votes.length === 0">
       No Votes to Display
     </div>
+
+
   </div>
 </div>

@@ -22,6 +22,7 @@ export class CandidateComponent implements OnInit, OnDestroy {
   private candidateId;
   private isCandidateSelected = false;
   private voted = false;
+  private votedBefore = false;
   private candidatesSelected: Candidate[];
   private candidatePost: Post;
   private subscription: Subscription;
@@ -51,6 +52,7 @@ export class CandidateComponent implements OnInit, OnDestroy {
     this.candidatesSelected = this.candidateService.getCandidatesbyPost(postIndex);
     this.isCandidateSelected = false;
     this.voted = false;
+    this.votedBefore = false;
   }
 
   candidateChanged(candidateIndex) {
@@ -62,8 +64,10 @@ export class CandidateComponent implements OnInit, OnDestroy {
   }
 
   onVote() {
-    this.voted = true;
-    this.voteService.onVote(this.candidateId);
+    this.voted = this.voteService.onVote(this.candidateId);
+    if (!this.voted) {
+      this.votedBefore = true;
+    }
   }
 
   ngOnDestroy() {
