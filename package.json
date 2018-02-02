@@ -11,6 +11,10 @@
     "e2e": "ng e2e",
     "postinstall": "ng build --env=prod"
   },
+  "engines": {
+    "node": "9.3.0",
+    "npm": "5.1.1"
+  },
   "private": true,
   "dependencies": {
     "@angular/cli": "1.6.2",
@@ -32,7 +36,8 @@
     "express": "^4.16.2",
     "ngx-bootstrap": "^2.0.0-rc.0",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "typescript": "~2.4.2"
   },
   "devDependencies": {
     "codelyzer": "^4.0.1",
@@ -46,7 +51,6 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
-    "tslint": "~5.7.0",
-    "typescript": "~2.4.2"
+    "tslint": "~5.7.0"
   }
 }
