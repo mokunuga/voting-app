@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from './authentication.service';
 import {User} from '../user/user';
-import {UserService} from '../user/user.service';
-import {Subscription} from 'rxjs/Subscription';
-import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-admin',
