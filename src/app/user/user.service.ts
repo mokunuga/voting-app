@@ -1,32 +1,21 @@
 import { Injectable } from '@angular/core';
-import {User} from './user';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {HttpClient} from '@angular/common/http';
+import {AuthenticationService} from '../admin/authentication.service';
 
 @Injectable()
 export class UserService {
 
-  private users: User[] = [
-    new User('Melody', 'Okunuga', 123, 'mokunuga', 'test', 'admin'),
-  ];
   usersUpdated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private localUsers;
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient, private as: AuthenticationService) { }
 
-  getUsers() {
-    if (localStorage.getItem('users') === null) {
-      localStorage.setItem('users', JSON.stringify(this.users));
-    }
-    this.localUsers = JSON.parse(localStorage.getItem('users'));
-    return this.localUsers;
+  getUsersAPI() {
+    return this.http.get('http://secure-ballot-api.herokuapp.com/api/users', {headers: {'Authorization': 'Bearer ' + this.as.getToken()}});
   }
 
-  addUser(user: User) {
-    this.users = this.getUsers();
-    this.users.push(user);
-    localStorage.setItem('users', JSON.stringify(this.users));
-    this.usersUpdated.next(true);
-    this.router.navigate(['/login'], {queryParams: {newUser: user.username}});
+  addUserAPI(user) {
+    return this.http.post('http://secure-ballot-api.herokuapp.com/api/register', user);
   }
 
 }

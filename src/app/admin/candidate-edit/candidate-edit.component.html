@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-12">
       <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit(f)" novalidate>
-        <div class="row candidate-edit">
+        <div class="row candidate-edit" *ngIf="candidate">
           <div class="pull-right">
             <button *ngIf="!isNew" class="btn btn-success" type="submit">Update</button>
             <button *ngIf="isNew" class="btn btn-success" type="submit">Submit</button>
@@ -62,7 +62,7 @@
                     name="post"
                     #post = "ngModel">
               <option *ngFor="let post of posts; let i=index"
-                      [value]="post.postIndex">{{post.postName}}</option>
+                      [value]="post.id">{{post.name}}</option>
             </select>
             <div *ngIf="f.submitted && !manifesto.valid" class="help-block">Candidate Post is required</div>
           </div>

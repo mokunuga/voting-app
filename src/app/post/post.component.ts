@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PostService} from './post.service';
 import {Post} from './post';
-import {Candidate} from '../candidate/candidate';
-import {CandidateService} from '../candidate/candidate.service';
-import {VoteService} from '../vote/vote.service';
-import {AuthenticationService} from '../admin/authentication.service';
-
 
 @Component({
   selector: 'app-post',
@@ -13,23 +8,19 @@ import {AuthenticationService} from '../admin/authentication.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  private posts: Post[] = this.postService.getPosts();
-  private model: Post = {
+  private posts;
+  public model: Post = {
     postIndex: null, postName: null
   };
-  private isEdit = false;
-  private selectedPost: Post;
-  private newPost: Post;
-  private clicked: boolean;
+  public isEdit = false;
+  public selectedPost: Post;
+  public clicked: boolean;
 
   constructor(private postService: PostService) { }
 
   ngOnInit() {
     this.clicked = false;
-  }
-
-  trackByIndex(index: number, post: Post): number {
-    return post.postIndex;
+    this.getPosts();
   }
 
   onEdit(post: Post) {
@@ -39,17 +30,25 @@ export class PostComponent implements OnInit {
   }
 
   onSubmit(formValue) {
-    this.newPost = new Post(this.selectedPost.postIndex, formValue.postName);
-    this.postService.editPost(this.selectedPost, this.newPost);
+    this.postService.updatePostAPI({name: formValue.postName}, this.selectedPost).subscribe(
+      data => {
+        console.log(data);
+        this.getPosts();
+      }
+    );
     this.isEdit = false;
   }
 
   onAdd(newPost) {
     this.clicked = true;
     if (newPost.valid) {
-      this.postService.addPost(newPost.value);
+      this.postService.addPostAPI({name: newPost.value}).subscribe(
+        data => {
+          console.log(data);
+          this.getPosts();
+        }
+      );
     }
-    this.posts = this.postService.getPosts();
     this.isEdit = false;
   }
 
@@ -58,7 +57,19 @@ export class PostComponent implements OnInit {
   }
 
   onDelete(post: Post) {
-    this.postService.deletPost(post);
-    this.posts = this.postService.getPosts();
+    this.postService.deletePostAPI(post).subscribe(
+      data => {
+        console.log(data);
+        this.getPosts();
+      }
+    );
+  }
+
+  getPosts() {
+    this.postService.getPostsAPI().subscribe(
+      data => {
+        this.posts = data;
+      }
+    );
   }
 }

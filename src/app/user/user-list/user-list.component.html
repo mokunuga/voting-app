@@ -7,15 +7,15 @@
             <thead>
             <tr>
               <th>Name</th>
-              <th>User Name</th>
-              <th>User ID No</th>
+              <th>Email Address</th>
+              <th>NIN</th>
             </tr>
             </thead>
             <tbody>
             <tr  *ngFor="let user of users">
-              <td>{{user.firstName}} {{user.lastName}}</td>
-              <td>{{user.username}}</td>
-              <td>{{user.identificationNo}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.NIN}}</td>
             </tr>
             </tbody>
         </table>

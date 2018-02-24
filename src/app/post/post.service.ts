@@ -1,52 +1,29 @@
 import { Injectable } from '@angular/core';
 import {Post} from './post';
+import {HttpClient} from '@angular/common/http';
+import {AuthenticationService} from '../admin/authentication.service';
 
 @Injectable()
 export class PostService {
-  private posts: Post[] = [
-    new Post(1, 'President'),
-    new Post(2, 'Vice President'),
-    new Post(3, 'General Secretary'),
-    new Post(4, 'Treasurer')
+  constructor(private http: HttpClient, private as: AuthenticationService) { }
 
-  ];
-  private localPosts;
-  constructor() { }
-
-  getPosts() {
-    if (localStorage.getItem('posts') === null) {
-      localStorage.setItem('posts', JSON.stringify(this.posts));
-    }
-    this.localPosts = JSON.parse(localStorage.getItem('posts'));
-    return this.localPosts;
+  getPostsAPI() {
+    return this.http.get('http://secure-ballot-api.herokuapp.com/api/posts');
   }
 
-  getPost(postIndex) {
-    return this.getPosts()[postIndex - 1];
+  getPostAPI(id) {
+    return this.http.get('http://secure-ballot-api.herokuapp.com/api/post ' + id);
   }
 
-  editPost(oldPost: Post, newPost: Post) {
-    this.posts = this.getPosts();
-    this.posts[this.posts.indexOf(oldPost)] = newPost;
-    this.updateLocalStorage();
+  addPostAPI(post) {
+    return this.http.post('http://secure-ballot-api.herokuapp.com/api/create-post', post, {headers: {'Authorization': 'Bearer ' + this.as.getToken()}});
   }
 
-  addPost(postName: string) {
-    let postIndex = this.posts.length + 1;
-    let newPost = new Post(postIndex, postName);
-    this.posts = this.getPosts();
-    this.posts.push(newPost);
-    this.updateLocalStorage();
+  updatePostAPI(post, oldPost) {
+    return this.http.put('http://secure-ballot-api.herokuapp.com/api/update-post/' + oldPost.id, post, {headers: {'Authorization': 'Bearer ' + this.as.getToken()}});
   }
 
-  updateLocalStorage() {
-    localStorage.setItem('posts', JSON.stringify(this.posts));
+  deletePostAPI(post) {
+    return this.http.delete('http://secure-ballot-api.herokuapp.com/api/delete-post/' + post.id, {headers: {'Authorization': 'Bearer ' + this.as.getToken()}});
   }
-
-  deletPost(post: Post) {
-    this.posts = this.getPosts();
-    this.posts.splice(this.posts.indexOf(post), 1);
-    this.updateLocalStorage();
-  }
-
 }

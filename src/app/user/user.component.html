@@ -2,60 +2,47 @@
   <h2>Register</h2>
   <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && register(f)" novalidate>
     <div class="row">
-      <div class="col-sm-12" *ngIf="!userIdUnique">
-        <div class="alert alert-danger">This National ID has already been registered as a user. Did you forget your password?</div>
+
+      <div *ngIf="error && keys">
+        <div class="col-sm-12" *ngFor="let key of keys">
+          <div class="alert alert-danger">{{key | titlecase}}: {{error[key][0]}}</div>
+        </div>
       </div>
 
-      <div class="col-sm-12" *ngIf="!usernameUnique">
-        <div class="alert alert-danger">This Username has already been used, please choose another!</div>
-      </div>
-
-      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
-        <label for="firstName">First Name</label>
+      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+        <label for="name">Name</label>
         <input type="text"
-               id="firstName"
+               id="name"
                required
                class="form-control"
-               [(ngModel)]="user.firstName"
-               name="firstName"
-               #firstName = "ngModel">
-        <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+               [(ngModel)]="user.name"
+               name="name"
+               #name = "ngModel">
+        <div *ngIf="f.submitted && !name.valid" class="help-block">Name is required</div>
       </div>
 
-      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
-        <label for="lastName">Last Name</label>
+      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !nin.valid }">
+        <label for="nin">National Identification No</label>
         <input type="text"
-               id="lastName"
+               id="nin"
                required
                class="form-control"
-               [(ngModel)]="user.lastName"
-               name="lastName"
-               #lastName = "ngModel">
-        <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+               [(ngModel)]="user.nin"
+               name="nin"
+               #nin = "ngModel">
+        <div *ngIf="f.submitted && !nin.valid" class="help-block">National Identification No is required</div>
       </div>
 
-      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !id.valid }">
-        <label for="id">National Identification No</label>
+      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+        <label for="email">Email Address</label>
         <input type="text"
-               id="id"
+               id="email"
                required
                class="form-control"
-               [(ngModel)]="user.identificationNo"
-               name="id"
-               #id = "ngModel">
-        <div *ngIf="f.submitted && !id.valid" class="help-block">National Identification No is required</div>
-      </div>
-
-      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-        <label for="username">Username</label>
-        <input type="text"
-               id="username"
-               required
-               class="form-control"
-               [(ngModel)]="user.username"
-               name="username"
-               #username = "ngModel">
-        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+               [(ngModel)]="user.email"
+               name="email"
+               #email = "ngModel">
+        <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
       </div>
 
       <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
@@ -70,18 +57,18 @@
         <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
       </div>
 
-      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !role.valid }">
-        <label for="role">Role</label>
-        <select class="form-control"
-                id="role"
-                required
-                [(ngModel)]="user.role"
-                name="role"
-                #role="ngModel">
-          <option *ngFor="let role of roles; let i=index" [value]="role">{{role | titlecase}}</option>
-        </select>
-        <div *ngIf="f.submitted && !role.valid" class="help-block">Role is required</div>
+      <div class="col-sm-5 form-group" [ngClass]="{ 'has-error': f.submitted && !passwordConfirm.valid }">
+        <label for="passwordConfirm">Password Confirmation</label>
+        <input type="password"
+               id="passwordConfirm"
+               required
+               class="form-control"
+               [(ngModel)]="user.passwordConfirm"
+               name="passwordConfirm"
+               #passwordConfirm="ngModel">
+        <div *ngIf="f.submitted && !passwordConfirm.valid" class="help-block">Password Confirmation is required</div>
       </div>
+
     </div>
     <div class="row">
       <div class="col-sm-12">

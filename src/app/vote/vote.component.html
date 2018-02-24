@@ -7,21 +7,23 @@
           <thead>
           <tr>
             <th>Candidate Name</th>
+            <th>Candidate Post</th>
             <th>Vote Count</th>
-            <th>Users that voted (Name - ID)</th>
+            <th>Users that voted (Name)</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let vote of votes">
-            <td>{{vote.candidate.firstName}} {{vote.candidate.lastName}}</td>
-            <td>{{vote.voteCount}}</td>
-            <td><div *ngFor="let userId of vote.usersId">{{getUser(userId)}} - {{userId}}</div></td>
+            <td *ngIf="vote.vote_count != 0">{{vote.candidate}}</td>
+            <td *ngIf="vote.vote_count != 0">{{vote.post}}</td>
+            <td *ngIf="vote.vote_count != 0">{{vote.vote_count}}</td>
+            <td *ngIf="vote.vote_count != 0"><div *ngFor="let user of vote.users">{{user.name}}</div></td>
           </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="col-sm-12" *ngIf="votes.length === 0">
+      <div class="col-sm-12" *ngIf="votes && votes.length === 0">
         No Votes to Display
       </div>
     </div>

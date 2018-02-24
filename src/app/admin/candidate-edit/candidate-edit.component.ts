@@ -1,5 +1,4 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Candidate} from '../../candidate/candidate';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {CandidateService} from '../../candidate/candidate.service';
@@ -13,14 +12,13 @@ import {PostService} from '../../post/post.service';
   styleUrls: ['./candidate-edit.component.css']
 })
 export class CandidateEditComponent implements OnInit, OnDestroy {
-  @Input() candidate: Candidate;
-  @Input() posts: Post[] = this.postService.getPosts();
+  @Input() candidate;
+  @Input() posts;
   private subscription: Subscription;
   private isNew = false;
   private candidateId: number;
   private candidatePost: Post;
-  private newCandidate: Candidate;
-  private candidates: Candidate[] = this.candidateService.getCandidates();
+  private newCandidate;
 
   constructor(private route: ActivatedRoute,
               private candidateService: CandidateService,
@@ -28,13 +26,19 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
+    this.postService.getPostsAPI().subscribe(
+      data => this.posts = data
+    );
     this.subscription = this.route.params.subscribe(
       (params: any) => {
         if (params.hasOwnProperty('id')) {
           this.isNew = false;
+          this.candidateService.getCandidateAPI(+params['id']).subscribe(
+            data => {
+              this.candidate = data[0];
+            }
+          );
           this.candidateId = +params['id'];
-          this.candidate = this.candidateService.getCandidate(this.candidateId);
-          this.candidatePost = this.candidateService.getCandidatePost(this.candidate.postIndex);
         }else {
           this.isNew = true;
           this.candidate = {
@@ -46,24 +50,32 @@ export class CandidateEditComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSubmit(form: NgForm) {
+    this.newCandidate = {first_name: form.value.firstName,
+                        last_name: form.value.lastName,
+                        post_id: +form.value.post,
+                        manifesto: form.value.manifesto,
+                        candidate_image: form.value.candidateImage};
+    if (!this.isNew) {
+      this.candidateService.updateCandidateAPI(this.newCandidate, this.candidateId).subscribe(
+        data => console.log(data)
+      );
+    } else {
+      this.candidateService.addCandidateAPI(this.newCandidate).subscribe(
+        data => console.log(data)
+      );
+    }
+    this.router.navigate(['/candidates']);
+  }
+
+  onDelete() {
+    this.candidateService.deleteCandidateAPI(this.candidateId).subscribe(
+      data => console.log(data)
+    );
+    this.router.navigate(['/candidates'], {relativeTo: this.route});
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-  onSubmit(form: NgForm) {
-    this.newCandidate = new Candidate(form.value.firstName, form.value.lastName, +form.value.post,
-      form.value.manifesto, form.value.candidateImage);
-    if (!this.isNew) {
-      this.candidateService.updateCandidate(this.candidate, this.newCandidate);
-    } else {
-      this.candidateService.addCandidate(this.newCandidate);
-    }
-    this.router.navigate(['/candidates']);
-   }
-
-   onDelete() {
-    this.candidateService.deleteCandidate(this.candidate);
-    this.router.navigate(['/candidates'], {relativeTo: this.route});
-   }
-
 }

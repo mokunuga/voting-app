@@ -1,7 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from '../post/post.service';
-import {Post} from '../post/post';
-import {Candidate} from './candidate';
 import {CandidateService} from './candidate.service';
 import {VoteService} from '../vote/vote.service';
 import {AuthenticationService} from '../admin/authentication.service';
@@ -17,14 +15,13 @@ export class CandidateComponent implements OnInit, OnDestroy {
 
   private userLoggedIn;
   private adminLoggedIn;
-  private posts: Post[] = this.postService.getPosts();
-  private candidate: Candidate = null;
+  public posts;
+  public candidate = null;
   private candidateId;
-  private isCandidateSelected = false;
+  public isCandidateSelected = false;
   private voted = false;
   private votedBefore = false;
-  private candidatesSelected: Candidate[];
-  private candidatePost: Post;
+  public candidatesSelected;
   private subscription: Subscription;
   private subscription1: Subscription;
 
@@ -46,28 +43,48 @@ export class CandidateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.postService.getPostsAPI().subscribe(
+      data => this.posts = data
+    );
+
   }
 
   postChanged(postIndex) {
-    this.candidatesSelected = this.candidateService.getCandidatesbyPost(postIndex);
-    this.isCandidateSelected = false;
+    this.candidateService.getCandidatesByPostAPI(postIndex).subscribe(
+      (data: {data}) => {
+        this.candidatesSelected = data.data;
+        this.isCandidateSelected = false;
+      }
+    );
     this.voted = false;
     this.votedBefore = false;
   }
 
   candidateChanged(candidateIndex) {
-    this.candidate = this.candidateService.getCandidate(candidateIndex);
-    this.candidateId = this.candidateService.getCandidateIndex(this.candidate);
-    this.candidatePost = this.postService.getPost(this.candidate.postIndex);
-    this.isCandidateSelected = true;
+    this.candidateService.getCandidateAPI(candidateIndex).subscribe(
+      data => {
+        this.candidate = data[0];
+        this.candidateId = this.candidate.id;
+        this.isCandidateSelected = true;
+      }
+    );
     this.voted = false;
   }
 
   onVote() {
-    this.voted = this.voteService.onVote(this.candidateId);
-    if (!this.voted) {
-      this.votedBefore = true;
-    }
+    const vote = {candidate_id: this.candidateId};
+    this.voteService.hasUserVotedAPI(this.candidateId).subscribe(
+      (data: {success}) => {
+        console.log(data);
+        if (!data.success) {
+          this.voteService.addVotes(vote);
+          this.voted = true;
+        } else {
+          this.voted = false;
+          this.votedBefore = true;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {

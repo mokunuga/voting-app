@@ -24,8 +24,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     );
   }
+  public isIn = false;
 
   ngOnInit() {
+
+  }
+
+  toggleState() {
+    const bool = this.isIn;
+    this.isIn = bool === false ? true : false;
   }
 
   ngOnDestroy() {

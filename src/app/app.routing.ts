@@ -14,8 +14,8 @@ import {UserListComponent} from './user/user-list/user-list.component';
 const app_routes: Routes = [
   {path: '', redirectTo: '/candidates', pathMatch: 'full'},
   {path: 'candidates', component: CandidateComponent},
-  {path: ':id/edit', component: CandidateEditComponent},
-  {path: 'new', component: CandidateEditComponent},
+  {path: ':id/edit', component: CandidateEditComponent, canActivate: [AuthGuard], data: {expectedRole: 'admin'}},
+  {path: 'new', component: CandidateEditComponent, canActivate: [AuthGuard], data: {expectedRole: 'admin'}},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {expectedRole: 'admin'}, children: [
       {path: 'view-votes', component: VoteComponent},
       {path: 'posts', component: PostComponent},

@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
-import {User} from '../../user/user';
 import {ActivatedRoute} from '@angular/router';
 
 
@@ -11,10 +10,9 @@ import {ActivatedRoute} from '@angular/router';
   `]
 })
 export class LoginComponent implements OnInit {
-  @Input() user  = {username: null, password: null};
+  @Input() user  = {email: null, password: null};
 
-  private errorMsg = '';
-  private successMsg = '';
+  private errorMsg;
   private redirectFromRegistration = false;
   private newUserQueryParam = null;
   private notAdminQueryParam = null;
@@ -41,13 +39,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (!this.authenticationService.login(this.user)) {
-      this.errorMsg = 'Authentication Failed';
-      this.successMsg = '';
-    } else {
-      this.errorMsg = '';
-      this.successMsg = 'Successful!';
-    }
+    this.authenticationService.loginAPI(this.user).subscribe(
+      (data: {access_token}) => {
+        localStorage.setItem('token', data.access_token);
+        this.authenticationService.AdminUserRoute();
+      },
+      (error: {success, error}) => {
+        this.errorMsg = error.error.error;
+      }
+    );
     this.redirectFromRegistration = false;
     this.redirectForNotAdmin = false;
   }

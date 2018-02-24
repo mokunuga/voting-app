@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {User} from './user';
 import {NgForm} from '@angular/forms';
 import {UserService} from './user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -9,44 +9,32 @@ import {UserService} from './user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  @Input() private user: User = {firstName: null, lastName: null, identificationNo: null, username: null, password: null, role: null};
-  private roles = ['user'];
-  private users: User[] = this.userService.getUsers();
-  private userIdUnique = true;
-  private usernameUnique = true;
+  @Input() public user = {name: null, email: null, nin: null, password: null, passwordConfirm: null};
+  public error;
+  public keys;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
 
   register(form: NgForm) {
-    this.userIdUnique = this.isUserIdUnique();
-    this.usernameUnique = this.isUsernameUnique();
-    if (this.isUserIdUnique() && this.isUsernameUnique()) {
-      this.userService.addUser(this.user);
-      this.userIdUnique = true;
-      this.userIdUnique = true;
-    }
-
-  }
-
-  isUserIdUnique() {
-    for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i].identificationNo === this.user.identificationNo) {
-        return false;
+    const user = {name: form.value.name,
+      email: form.value.email,
+      password: form.value.password,
+      password_confirmation: form.value.passwordConfirm,
+      NIN: form.value.nin};
+    this.userService.addUserAPI(user).subscribe(
+      (data: {success, error, data}) => {
+        if (data.success) {
+          this.userService.usersUpdated.next(true);
+          this.router.navigate(['/login'], {queryParams: {newUser: data.data.name}});
+        } else {
+          this.error = data.error;
+          this.keys = Object.keys(data.error);
+        }
       }
-    }
-    return true;
-  }
-
-  isUsernameUnique() {
-    for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i].username === this.user.username) {
-        return false;
-      }
-    }
-    return true;
+    );
   }
 
 }

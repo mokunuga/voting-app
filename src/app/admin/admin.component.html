@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h4>Welcome {{currentUser.username | uppercase}}</h4>
+      <h4 *ngIf="currentUser">Welcome {{currentUser.name | titlecase}}</h4>
       <div class="col-sm-3 text-center">
         <button routerLink="users-list" class="btn btn-block btn-default" routerLinkActive="active">Users</button>
       </div>

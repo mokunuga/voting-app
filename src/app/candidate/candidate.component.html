@@ -12,7 +12,7 @@
         <label for="post">Posts</label>
         <select class="form-control" id=post (change)="postChanged($event.target.value)" >
           <option>Pick a post...</option>
-          <option *ngFor="let post of posts" [value]="post.postIndex">{{post.postName}}</option>
+          <option *ngFor="let post of posts" [value]="post.id">{{post.name}}</option>
         </select>
       </div>
 
@@ -21,7 +21,7 @@
         <select class="form-control" id=candidate (change)="candidateChanged($event.target.value)">
           <option>Pick a candidate...</option>
           <option *ngFor="let candidate of candidatesSelected"
-                  [value]="candidateService.getCandidateIndex(candidate)">{{candidate.firstName}} {{candidate.lastName}}</option>
+                  [value]="candidate.id">{{candidate.firstName}} {{candidate.lastName}}</option>
         </select>
       </div>
     </div>
@@ -42,7 +42,7 @@
              src="{{candidate.candidateImage}}"
              style="max-height: 20em"/>
         <h2>{{candidate.firstName}} {{candidate.lastName}}</h2>
-        <span><strong>Post:</strong> {{candidatePost.postName}}</span>
+        <span><strong>Post:</strong>{{candidate.post}}</span>
         <hr>
         <h4>Manifesto</h4>
         <span>{{candidate.manifesto}}</span>
