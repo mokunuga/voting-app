@@ -17,7 +17,7 @@ export class AuthenticationService {
       (data: { role }) => {
         if (data.role === 'admin') {
           this.adminLoggedIn.next(true);
-        } else {
+        } else if (data.role === 'user') {
           this.userLoggedIn.next(true);
         }
       }

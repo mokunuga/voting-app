@@ -10,7 +10,7 @@
             <button class="btn btn-primary" routerLink="/candidates">Cancel</button>
           </div>
 
-          <div class="col-sm-12 form-group" [ngClass]="{'has-error': f.submitted && !candidateImage.valid }">
+          <div class="col-sm-12 form-group app-form" [ngClass]="{'has-error': f.submitted && !candidateImage.valid }">
             <label for="candidateImage">Candidate Image URL</label>
             <input type="text"
                    id="candidateImage"

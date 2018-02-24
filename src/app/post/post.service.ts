@@ -12,7 +12,7 @@ export class PostService {
   }
 
   getPostAPI(id) {
-    return this.http.get('http://secure-ballot-api.herokuapp.com/api/post ' + id);
+    return this.http.get('http://secure-ballot-api.herokuapp.com/api/post/' + id);
   }
 
   addPostAPI(post) {
